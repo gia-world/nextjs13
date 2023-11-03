@@ -1,5 +1,8 @@
 import NotFoundPage from "@/app/not-found";
+import GoProductsButton from "@/components/GoProductsButton";
 import { getProduct } from "@/service/products";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 import React from "react";
 import { getProducts } from "../../../service/products";
 
@@ -20,9 +23,23 @@ export function generateMetadata({ params }: Props) {
 export default async function ProductPage({ params: { slug } }: Props) {
   const product = await getProduct(slug);
   if (!product) {
-    NotFoundPage();
+    redirect("/products");
+    // NotFoundPage();
+  } else {
+    return (
+      <div>
+        <p>{product.name} Page</p>
+        <Image
+          src={`/images/${product.image}`}
+          alt={product.name}
+          width={300}
+          height={300}
+        />
+        {/* 서버 컴포넌트에서는 온클릭을 사용할 수 없음 */}
+        <GoProductsButton />
+      </div>
+    );
   }
-  return <div>{product?.name} Page</div>;
 }
 
 // 다이나믹 라우팅에서 페이지 미리 생성해두고 싶을 때

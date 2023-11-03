@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 
 export type Product = {
   id: string;
+  image: string;
   name: string;
   price: number;
 };
